@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.predict import router as predict_router
+from app.routes.recommend import router as recommend_router
+from app.routes.try_on import router as try_on_router
 
 app = FastAPI(
     title="FrameFit API",
@@ -25,3 +27,5 @@ def root():
 
 
 app.include_router(predict_router)
+app.include_router(recommend_router)
+app.include_router(try_on_router)

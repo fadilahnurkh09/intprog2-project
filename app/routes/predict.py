@@ -1,3 +1,4 @@
+from app.routes.recommend import GLASSES_CATALOG
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from PIL import Image, UnidentifiedImageError
 from pathlib import Path
@@ -140,3 +141,31 @@ async def predict(file: UploadFile = File(...)):
             status_code=500,
             detail="Terjadi kesalahan saat model melakukan prediksi."
         )
+
+
+@router.post("/analyze")
+async def analyze(file: UploadFile = File(...)):
+    # Jalankan prediksi menggunakan validasi dan model yang sudah ada
+    result = await predict(file)
+
+    face_shape = result["face_shape"]
+
+    # Ambil rekomendasi sesuai bentuk wajah
+    recommendations = [
+        {
+            "id": item["id"],
+            "name": item["name"],
+            "style": item["style"],
+            "description": item["description"],
+        }
+        for item in GLASSES_CATALOG
+        if face_shape in item["suitable_for"]
+    ]
+
+    return {
+        "success": True,
+        "face_shape": face_shape,
+        "confidence": result["confidence"],
+        "recommendations": recommendations,
+    }
+
