@@ -1,0 +1,114 @@
+{
+  "test_samples": 1000,
+  "test_loss": 1.1228731870651245,
+  "test_accuracy": 0.571,
+  "test_macro_precision": 0.5719376267971044,
+  "test_macro_recall": 0.571,
+  "test_macro_f1": 0.5695954915478649,
+  "target_accuracy_gt_85_met": false,
+  "classification_report": {
+    "Heart": {
+      "precision": 0.5714285714285714,
+      "recall": 0.56,
+      "f1-score": 0.5656565656565656,
+      "support": 200.0
+    },
+    "Oblong": {
+      "precision": 0.6700507614213198,
+      "recall": 0.66,
+      "f1-score": 0.6649874055415617,
+      "support": 200.0
+    },
+    "Oval": {
+      "precision": 0.5,
+      "recall": 0.43,
+      "f1-score": 0.46236559139784944,
+      "support": 200.0
+    },
+    "Round": {
+      "precision": 0.5203252032520326,
+      "recall": 0.64,
+      "f1-score": 0.5739910313901345,
+      "support": 200.0
+    },
+    "Square": {
+      "precision": 0.5978835978835979,
+      "recall": 0.565,
+      "f1-score": 0.5809768637532133,
+      "support": 200.0
+    },
+    "accuracy": 0.571,
+    "macro avg": {
+      "precision": 0.5719376267971044,
+      "recall": 0.571,
+      "f1-score": 0.5695954915478649,
+      "support": 1000.0
+    },
+    "weighted avg": {
+      "precision": 0.5719376267971042,
+      "recall": 0.571,
+      "f1-score": 0.5695954915478648,
+      "support": 1000.0
+    }
+  },
+  "most_confused_class_pairs": [
+    {
+      "actual": "Oval",
+      "predicted": "Round",
+      "count": 43
+    },
+    {
+      "actual": "Heart",
+      "predicted": "Round",
+      "count": 35
+    },
+    {
+      "actual": "Square",
+      "predicted": "Round",
+      "count": 34
+    },
+    {
+      "actual": "Oval",
+      "predicted": "Heart",
+      "count": 32
+    },
+    {
+      "actual": "Oblong",
+      "predicted": "Oval",
+      "count": 27
+    },
+    {
+      "actual": "Round",
+      "predicted": "Oval",
+      "count": 25
+    },
+    {
+      "actual": "Round",
+      "predicted": "Square",
+      "count": 24
+    },
+    {
+      "actual": "Oblong",
+      "predicted": "Heart",
+      "count": 23
+    },
+    {
+      "actual": "Oval",
+      "predicted": "Square",
+      "count": 23
+    },
+    {
+      "actual": "Heart",
+      "predicted": "Oblong",
+      "count": 22
+    }
+  ],
+  "labels": [
+    "Heart",
+    "Oblong",
+    "Oval",
+    "Round",
+    "Square"
+  ],
+  "note": "Test set dievaluasi sesudah pemilihan model berdasarkan validation loss."
+}

@@ -1,0 +1,12 @@
+{
+  "head": {
+    "val_loss": 1.1954940557479858,
+    "val_accuracy": 0.530145525932312
+  },
+  "fine": {
+    "val_loss": 1.0985989570617676,
+    "val_accuracy": 0.5925155878067017
+  },
+  "selected_stage": "fine",
+  "best_model_path": "models\\training_results\\faces\\faceshape_mobilenetv2_best.keras"
+}
