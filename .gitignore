@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .venv/
 datasets/
 backup_code/
@@ -158,3 +159,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+=======
+venv/
+venv312/
+__pycache__/
+*.pyc
+.env
+>>>>>>> origin/main

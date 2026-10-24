@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from fastapi.responses import StreamingResponse
 from PIL import Image, UnidentifiedImageError
@@ -21,11 +25,19 @@ GLASSES_FILES = {
     "aviator": "aviator_test.png",
 }
 
+<<<<<<< HEAD
+=======
+# Titik landmark MediaPipe di sekitar sudut luar kedua mata.
+>>>>>>> origin/main
 LEFT_EYE_OUTER = 33
 RIGHT_EYE_OUTER = 263
 
 
+<<<<<<< HEAD
 def get_eye_points(image_rgb: Image.Image):
+=======
+def get_eye_points(image_rgb):
+>>>>>>> origin/main
     mp_image = mp.Image(
         image_format=mp.ImageFormat.SRGB,
         data=np.asarray(image_rgb, dtype=np.uint8),
@@ -63,7 +75,18 @@ def get_eye_points(image_rgb: Image.Image):
     return p1, p2
 
 
+<<<<<<< HEAD
 def apply_glasses_to_face(face: Image.Image, glasses_style: str) -> Image.Image:
+=======
+@router.post("")
+async def try_on(
+    file: UploadFile = File(...),
+    glasses_style: str = Form(...),
+):
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File harus berupa gambar.")
+
+>>>>>>> origin/main
     if glasses_style not in GLASSES_FILES:
         raise HTTPException(
             status_code=400,
@@ -73,6 +96,26 @@ def apply_glasses_to_face(face: Image.Image, glasses_style: str) -> Image.Image:
             },
         )
 
+<<<<<<< HEAD
+=======
+    image_bytes = await file.read()
+
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="File gambar kosong.")
+
+    if len(image_bytes) > MAX_FILE_SIZE:
+        raise HTTPException(status_code=413, detail="Ukuran maksimal 5 MB.")
+
+    try:
+        with Image.open(io.BytesIO(image_bytes)) as source:
+            source.verify()
+
+        with Image.open(io.BytesIO(image_bytes)) as source:
+            face = source.convert("RGB")
+    except (UnidentifiedImageError, OSError, Image.DecompressionBombError):
+        raise HTTPException(status_code=400, detail="Gambar tidak valid.")
+
+>>>>>>> origin/main
     p1, p2 = get_eye_points(face)
 
     dx = p2[0] - p1[0]
@@ -94,6 +137,10 @@ def apply_glasses_to_face(face: Image.Image, glasses_style: str) -> Image.Image:
     with Image.open(glasses_path) as asset:
         glasses = asset.convert("RGBA")
 
+<<<<<<< HEAD
+=======
+    # Pangkas area transparan agar ukuran bingkai lebih akurat.
+>>>>>>> origin/main
     alpha = glasses.getchannel("A")
     bbox = alpha.getbbox()
     if bbox is None:
@@ -101,12 +148,21 @@ def apply_glasses_to_face(face: Image.Image, glasses_style: str) -> Image.Image:
 
     glasses = glasses.crop(bbox)
 
+<<<<<<< HEAD
     # ukuran frame
     target_width = int(eye_distance * 1.6)
     target_height = max(1, int(glasses.height * target_width / glasses.width))
     glasses = glasses.resize((target_width, target_height), Image.Resampling.LANCZOS)
 
     # rotasi mengikuti mata
+=======
+    # Lebar bingkai awal sekitar 2,3 kali jarak sudut luar mata.
+    target_width = int(eye_distance * 2.3)
+    target_height = max(1, int(glasses.height * target_width / glasses.width))
+    glasses = glasses.resize((target_width, target_height), Image.Resampling.LANCZOS)
+
+    # Putar mengikuti kemiringan garis mata.
+>>>>>>> origin/main
     glasses = glasses.rotate(
         angle,
         resample=Image.Resampling.BICUBIC,
@@ -116,12 +172,17 @@ def apply_glasses_to_face(face: Image.Image, glasses_style: str) -> Image.Image:
     center_x = (p1[0] + p2[0]) / 2
     center_y = (p1[1] + p2[1]) / 2
 
+<<<<<<< HEAD
+=======
+    # Letakkan bagian tengah bingkai sedikit di bawah garis sudut luar mata.
+>>>>>>> origin/main
     x = int(center_x - glasses.width / 2)
     y = int(center_y - glasses.height * 0.42)
 
     result = face.convert("RGBA")
     result.alpha_composite(glasses, (x, y))
 
+<<<<<<< HEAD
     return result
 
 
@@ -159,9 +220,18 @@ async def try_on(
 
     result = apply_glasses_to_face(face, glasses_style)
     output = pil_image_to_png_bytes(result)
+=======
+    output = io.BytesIO()
+    result.convert("RGB").save(output, format="PNG")
+    output.seek(0)
+>>>>>>> origin/main
 
     return StreamingResponse(
         output,
         media_type="image/png",
         headers={"Content-Disposition": 'inline; filename="framefit-try-on.png"'},
+<<<<<<< HEAD
     )
+=======
+    )
+>>>>>>> origin/main
