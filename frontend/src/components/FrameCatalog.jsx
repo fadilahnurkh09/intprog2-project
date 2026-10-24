@@ -1,6 +1,15 @@
-import { frameDataUrl } from "../data/frames.js";
+import { FRAMES, styleInfo } from "../data/frames.js";
+import { FrameThumb } from "./TryOn.jsx";
 
-export default function FrameCatalog({ items, selectedId, onSelect, color }) {
+export default function FrameCatalog({ items, selected, onSelect }) {
+  if (!items.length) {
+    return (
+      <section>
+        <div className="section-head"><h2>Rekomendasi frame untukmu</h2></div>
+        <p className="muted">Belum ada rekomendasi untuk bentuk wajah ini.</p>
+      </section>
+    );
+  }
   return (
     <section aria-labelledby="rekom-title">
       <div className="section-head">
@@ -11,15 +20,15 @@ export default function FrameCatalog({ items, selectedId, onSelect, color }) {
         {items.map((f, i) => (
           <button
             key={f.id}
-            className={`frame-card ${selectedId === f.id ? "is-selected" : ""}`}
-            onClick={() => onSelect(f.id)}
-            aria-pressed={selectedId === f.id}
+            className={`frame-card ${selected === f.style ? "is-selected" : ""}`}
+            onClick={() => onSelect(f.style)}
+            aria-pressed={selected === f.style}
           >
             {i === 0 && <span className="badge">Paling cocok</span>}
-            <img src={frameDataUrl(f.id, color)} alt="" />
+            <FrameThumb style={f.style} />
             <h3>{f.name}</h3>
-            <span className="kind">{f.kind}</span>
-            <p>{f.reason}</p>
+            <span className="kind">{FRAMES[styleInfo(f.style).svg]?.kind}</span>
+            <p>{f.description}</p>
           </button>
         ))}
       </div>

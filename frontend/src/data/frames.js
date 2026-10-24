@@ -170,3 +170,24 @@ export function getRecommendations(faceShape) {
   const rules = RECOMMENDATIONS[faceShape] || RECOMMENDATIONS.Oval;
   return rules.map(([id, reason]) => ({ id, reason, ...FRAMES[id] }));
 }
+
+// ---------------------------------------------------------------------------
+// Pemetaan model kacamata dari backend (field "style" di /recommendations)
+// ke frame SVG lokal dan ke nama aset/parameter Virtual Try-On di backend.
+//   svg     : id di FRAMES (untuk thumbnail cadangan & mode manual)
+//   tryOn   : nilai `glasses_style` untuk POST /try-on (null = belum ada aset di backend)
+//   asset   : nama file thumbnail di /assets/glasses/<asset>_test.png
+// ---------------------------------------------------------------------------
+export const STYLE_MAP = {
+  rectangular: { svg: "rectangle", tryOn: "rectangular", asset: "rectangular" },
+  round: { svg: "round", tryOn: "round", asset: "round" },
+  "cat-eye": { svg: "cateye", tryOn: "cateye", asset: "cateye" },
+  aviator: { svg: "aviator", tryOn: "aviator", asset: "aviator" },
+  oval: { svg: "oval", tryOn: null, asset: null },
+};
+
+export const STYLE_ORDER = ["rectangular", "round", "cat-eye", "aviator", "oval"];
+
+export function styleInfo(style) {
+  return STYLE_MAP[style] || { svg: "round", tryOn: null, asset: null };
+}

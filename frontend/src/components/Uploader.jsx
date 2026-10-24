@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import CameraCapture from "./CameraCapture.jsx";
 
-const MAX_MB = 8;
+const MAX_MB = 25; // foto besar dikecilkan otomatis sebelum diunggah (batas server 5 MB)
 
 export default function Uploader({ onPick, busy }) {
   const inputRef = useRef(null);

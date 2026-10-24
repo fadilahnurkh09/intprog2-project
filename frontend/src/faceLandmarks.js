@@ -26,15 +26,17 @@ function getLandmarker() {
   return landmarkerPromise;
 }
 
-/** @returns {{left:{x,y}, right:{x,y}} | null} koordinat ternormalisasi (0..1) */
-export async function detectEyes(imageEl) {
+/**
+ * Sudut luar kedua mata (landmark 33 dan 263) — titik yang sama dengan yang dipakai backend.
+ * @returns {{left:{x,y}, right:{x,y}} | null} koordinat ternormalisasi (0..1), left = yang lebih kiri di gambar
+ */
+export async function detectEyeCorners(imageEl) {
   const lm = await getLandmarker();
   const res = lm.detect(imageEl);
   const pts = res.faceLandmarks?.[0];
-  if (!pts || pts.length < 478) return null;
-  // 468 & 473 = pusat iris kedua mata
-  const a = pts[468];
-  const b = pts[473];
+  if (!pts || pts.length < 264) return null;
+  const a = pts[33];
+  const b = pts[263];
   const [left, right] = a.x <= b.x ? [a, b] : [b, a];
   return { left: { x: left.x, y: left.y }, right: { x: right.x, y: right.y } };
 }

@@ -1,8 +1,9 @@
 
-from fastapi import APIRouter, HTTPException
+from app.auth import get_current_user
+from fastapi import Depends, APIRouter, HTTPException
 from pydantic import BaseModel
 
-router = APIRouter(prefix="/recommendations", tags=["Recommendations"])
+router = APIRouter(prefix="/recommendations", tags=["Recommendations"], dependencies=[Depends(get_current_user)])
 
 # Katalog awal untuk pengembangan API.
 # Data frame dan URL gambar bisa disesuaikan dengan katalog proyek.
